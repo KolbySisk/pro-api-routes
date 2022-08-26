@@ -2,7 +2,7 @@ import type { NextApiResponse } from 'next';
 import { withErrors, withUser, withAcceptedMethods, NextApiRequestWithUser, withValidBody } from '../../middleware';
 import * as z from 'zod';
 
-const bodySchema = z
+const formSchema = z
   .object({
     email: z.string().email(),
     password: z.string().min(4),
@@ -16,4 +16,4 @@ const handler = async (req: NextApiRequestWithUser, res: NextApiResponse<{ messa
   return res.status(200).json({ message: 'request was good!' });
 };
 
-export default withErrors(withAcceptedMethods(['POST'], withUser(withValidBody(bodySchema, handler))));
+export default withErrors(withAcceptedMethods(['POST'], withUser(withValidBody(formSchema, handler))));
