@@ -1,3 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest } from 'next';
 
-export type Handler<RequestT = NextApiRequest> = (req: RequestT, res: NextApiResponse) => void;
+export type User = { userId: string };
+
+export type NextApiRequestWithUser = NextApiRequest & User;

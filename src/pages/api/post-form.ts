@@ -1,7 +1,9 @@
 import type { NextApiResponse } from 'next';
 import * as z from 'zod';
-import { addUser, allowMethods, captureErrors, NextApiRequestWithUser, validateBody } from '../../middleware';
 import { use } from 'next-api-route-middleware';
+
+import { addUser, allowMethods, captureErrors, validateBody } from '../../middleware';
+import { NextApiRequestWithUser } from '../../types';
 
 const formSchema = z
   .object({
