@@ -1,6 +1,7 @@
 import type { NextApiResponse } from 'next';
-import { withErrors, withUser, withAcceptedMethods, NextApiRequestWithUser, withValidBody } from '../../middleware';
 import * as z from 'zod';
+import { addUser, allowMethods, captureErrors, NextApiRequestWithUser, validateBody } from '../../middleware';
+import { use } from 'next-api-route-middleware';
 
 const formSchema = z
   .object({
@@ -13,7 +14,7 @@ const formSchema = z
   });
 
 const handler = async (req: NextApiRequestWithUser, res: NextApiResponse<{ message: string }>) => {
-  return res.status(200).json({ message: 'request was good!' });
+  res.status(200).json({ message: 'request was good!' });
 };
 
-export default withErrors(withAcceptedMethods(['POST'], withUser(withValidBody(formSchema, handler))));
+export default use(captureErrors, allowMethods(['POST']), validateBody(formSchema), addUser, handler);

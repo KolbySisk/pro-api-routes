@@ -1,8 +1,8 @@
 import * as z from 'zod';
-import { Handler } from '../types';
+import { Middleware } from 'next-api-route-middleware';
 
-export const withValidBody = <RequestT>(zodSchema: z.ZodSchema, handler: Handler<RequestT>): Handler<RequestT> => {
-  return async (req, res) => {
+export const validateBody = (zodSchema: z.ZodSchema): Middleware => {
+  return async function (req, res, next) {
     const body = typeof req.body === 'object' ? req.body : JSON.parse(req.body);
     const validation = zodSchema.safeParse(body);
 
@@ -12,6 +12,6 @@ export const withValidBody = <RequestT>(zodSchema: z.ZodSchema, handler: Handler
       });
     }
 
-    return handler(req, res);
+    next();
   };
 };
